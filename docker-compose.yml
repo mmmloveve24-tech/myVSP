@@ -1,0 +1,22 @@
+services:
+  3x-ui:
+    image: ghcr.io/mhsanaei/3x-ui:${XUI_IMAGE_TAG:-latest}
+    container_name: 3x-ui
+    restart: unless-stopped
+    # REQUIRED: Reality must bind a raw TCP port on the host NIC.
+    # Do NOT add a `ports:` block here — it conflicts with host networking
+    # and silently breaks Reality on some kernels.
+    network_mode: host
+    volumes:
+      - ./db/:/etc/x-ui/
+      - ./cert/:/root/cert/
+    environment:
+      XRAY_VMESS_AEAD_FORCED: "false"
+      XUI_ENABLE_FAIL2BAN: "true"
+      TZ: ${TZ:-UTC}
+    tty: true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

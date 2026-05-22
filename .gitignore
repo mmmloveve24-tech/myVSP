@@ -1,0 +1,8 @@
+.env
+db/
+cert/
+amneziawg/.env
+amneziawg/wg-data/
+*.log
+*.swp
+.DS_Store
